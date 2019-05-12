@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.dao.TalkDao">
+    <resultMap id="BaseResultMap" type="com.example.demo.domain.Talk">
+        <result column="id" property="id"/>
+    </resultMap>
+
+    <resultMap id="TalkVoMap" type="com.example.demo.domain.TalkVo">
+        <id column="id" property="talk.id"/>
+        <result column="user_image" property="user.image"/>
+        <result column="username" property="user.username"/>
+        <result column="time" property="talk.time"/>
+        <result column="title" property="talk.title"/>
+        <result column="context" property="talk.context"/>
+        <result column="label" property="talk.label"/>
+        <result column="message_count" property="talk.messageCount"/>
+        <collection property="imageList" javaType="java.util.List" ofType="String">
+            <result column="talk_image"/>
+        </collection>
+    </resultMap>
+
+    <select id="listTalk" resultMap="TalkVoMap">
+        select t.id id, u.username username,u.image user_image, t.time time, t.title title, t.context context, t.label label,
+                t.message_count message_count,ti.image talk_image from talk t
+                LEFT JOIN user u on t.user_id = u.id
+                LEFT JOIN talk_image ti on t.id = ti.talk_id
+    </select>
+
+    <insert id="addTalk">
+        insert talk(user_id, time, title, context, label, message_count) VALUES (#{userId},#{talk.time},#{talk.title},#{talk.context},#{talk.label},#{talk.messageCount})
+    </insert>
+
+</mapper>
