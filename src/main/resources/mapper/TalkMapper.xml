@@ -30,4 +30,20 @@
         insert talk(user_id, time, title, context, label, message_count) VALUES (#{userId},#{talk.time},#{talk.title},#{talk.context},#{talk.label},#{talk.messageCount})
     </insert>
 
+    <select id="getSearch" resultMap="TalkVoMap">
+        select t.id id, u.username username,u.image user_image, t.time time, t.title title, t.context context, t.label label,
+                t.message_count message_count,ti.image talk_image from talk t
+                LEFT JOIN user u on t.user_id = u.id
+                LEFT JOIN talk_image ti on t.id = ti.talk_id
+                where t.label = #{keyword};
+    </select>
+
+    <select id="getTalk" resultMap="TalkVoMap">
+        select t.id id, u.username username,u.image user_image, t.time time, t.title title, t.context context, t.label label,
+                t.message_count message_count,ti.image talk_image from talk t
+                LEFT JOIN user u on t.user_id = u.id
+                LEFT JOIN talk_image ti on t.id = ti.talk_id
+                where t.id = #{id};
+    </select>
+
 </mapper>

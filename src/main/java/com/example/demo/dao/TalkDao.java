@@ -12,4 +12,8 @@ public interface TalkDao {
     List<Talk> listTalk();
 
     int addTalk(@Param("userId") int userId, Talk talk);
+
+    List<Talk> getSearch(@Param("keyword") String keyword);
+
+    Talk getTalk(@Param("id")int id);
 }
